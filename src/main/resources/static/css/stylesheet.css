@@ -10,9 +10,9 @@
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    background-color: cadetblue;
+    background-color: white;
     color: white;
-    height: 120px;
+    height: 85px;
     border-bottom: inset 10px;
 }
 
@@ -20,8 +20,9 @@
     display: inline;
     margin-right: 30px;
     font-weight: bold;
-    font-family: Monaco;
+    font-family: 'BodonisBulemy', sans-serif;
     font-size: 22px;
+    color: black;
 }
 
 .navbar-item:hover{
@@ -47,7 +48,38 @@
 .motivation-message{
     position: absolute;
     font-size: 80px;
-    bottom: 50%;
+    bottom: 80%;
     left: 20%;
     color: white;
+    font-family: 'BodonisBulemy', sans-serif;
+}
+
+.motivation-message2{
+    font-size: 80px;
+    bottom: 50%;
+    left: 20%;
+    color: black;
+    font-family: 'BodonisBulemy', sans-serif;
+    text-align-last:center;
+    padding: 50px;
+}
+
+.upgrade{
+    width: 40%;
+    padding: 80px;
+}
+
+.learn-more{
+    width: 40%;
+    padding: 80px;
+}
+
+footer{
+    height: 50px;
+    background-color: black;
+    text-align-last:center;
+    padding: 20px;
+    color: white;
+    margin-top: 100px;
+
 }

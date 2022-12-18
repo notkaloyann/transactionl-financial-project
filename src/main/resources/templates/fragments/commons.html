@@ -4,6 +4,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head th:fragment="head">
+  <link href="https://fonts.cdnfonts.com/css/signerica-fat" rel="stylesheet">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Transactionl - The Future of Personal Finances</title>
@@ -12,18 +13,24 @@
 <body>
 
 <header th:fragment="header">
-  <div class="navbar-container">
+  <div class="navbar-container"><style>
+    @import url('https://fonts.cdnfonts.com/css/bodonisbulemy');
+  </style>
   <a href="home.html" >
     <img class="logo" src="/img/logo.png"/>
   </a>
   <ul class="navbar-content">
     <li class="navbar-item" href="">HOME</li>
+    <li class="navbar-item" href="">LOGIN</li>
     <li class="navbar-item" href="">PROFILE</li>
     <li class="navbar-item" href="">TRANSACTIONS</li>
   </ul>
     </div>
 </header>
 
+<footer th:fragment="footer">
 
+</footer>
 
+</body>
 </html>
