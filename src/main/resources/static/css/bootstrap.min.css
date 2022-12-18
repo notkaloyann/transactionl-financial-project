@@ -2030,3 +2030,7 @@ p {
 #navbar .navbar {
     margin-bottom: 20px;
 }
+
+.display-inline{
+    display: inline-block;
+}

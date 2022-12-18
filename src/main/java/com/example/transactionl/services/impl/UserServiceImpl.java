@@ -3,6 +3,7 @@ package com.example.transactionl.services.impl;
 import com.example.transactionl.models.entities.Role;
 import com.example.transactionl.models.entities.RoleEnums;
 import com.example.transactionl.models.entities.UserEntity;
+import com.example.transactionl.models.view.UserViewModel;
 import com.example.transactionl.repositories.UserRepository;
 import com.example.transactionl.services.RoleService;
 import com.example.transactionl.services.UserService;
@@ -40,13 +41,22 @@ public class UserServiceImpl implements UserService {
 
             UserEntity admin = new UserEntity();
             admin.setUsername("notkaloyan").setPassword(this.passwordEncoder.encode("verySecret"))
-                    .setEmail("kaloyankondow@mail.bg").setRoles(List.of(adminRole, userRole));
+                    .setEmail("kaloyankondow@mail.bg").setRoles(List.of(adminRole, userRole))
+                    .setFirstName("Kaloyan")
+                    .setLastName("Kondov");
 
             UserEntity user = new UserEntity();
             user.setUsername("reggie").setPassword(this.passwordEncoder.encode("notVerySecret"))
-                    .setEmail("regularuser@mail.bg").setRoles(List.of(userRole));
+                    .setEmail("regularuser@mail.bg").setRoles(List.of(userRole))
+                    .setFirstName("Regular")
+                    .setLastName("User");
 
             this.userRepository.saveAll(List.of(admin,user));
         }
+    }
+
+    @Override
+    public UserViewModel getUserViewModelByUsername(String username) {
+        return this.modelMapper.map(this.userRepository.getUserEntityByUsername(username).orElse(null),UserViewModel.class);
     }
 }

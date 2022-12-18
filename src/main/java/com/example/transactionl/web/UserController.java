@@ -1,10 +1,15 @@
 package com.example.transactionl.web;
 
 
-import com.example.transactionl.models.binding.UserLoginBindingModel;
 import com.example.transactionl.models.binding.UserRegisterBindingModel;
+import com.example.transactionl.models.view.UserViewModel;
+import com.example.transactionl.services.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,7 +24,11 @@ import javax.validation.Valid;
 public class UserController {
 
 
+    private final UserService userService;
 
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public String registerPage(){
@@ -54,9 +63,14 @@ public class UserController {
   }
 
   @GetMapping("/profile")
-    public String profilePage(){
+    public String profilePage(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        UserViewModel userViewModel = this.userService.getUserViewModelByUsername(username);
+        model.addAttribute("userViewModel",userViewModel);
         return "profile-page";
   }
+
 
 
 
