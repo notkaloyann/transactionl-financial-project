@@ -16,20 +16,22 @@
   <div class="navbar-container"><style>
     @import url('https://fonts.cdnfonts.com/css/bodonisbulemy');
   </style>
-  <a href="home.html" >
+  <a href="http://localhost:8080/" >
     <img class="logo" src="/img/logo.png"/>
   </a>
   <ul class="navbar-content">
-    <li class="navbar-item" href="">HOME</li>
-    <li class="navbar-item" href="">LOGIN</li>
-    <li class="navbar-item" href="">PROFILE</li>
-    <li class="navbar-item" href="">TRANSACTIONS</li>
+    <a class="navbar-item" href="/">HOME</a>
+    <a sec:authorize="isAnonymous()" class="navbar-item" href="/users/login">LOGIN</a>
+    <a sec:authorize="isAuthenticated()" class="navbar-item" href="">PROFILE</a>
+    <a sec:authorize="isAuthenticated()" class="navbar-item" href="">TRANSACTIONS</a>
+    <a sec:authorize="isAuthenticated()" class="navbar-item" href="/users/logout">LOGOUT</a>
+
   </ul>
     </div>
 </header>
 
 <footer th:fragment="footer">
-
+  2022 All rights reserved by Transactionl Ltd.
 </footer>
 
 </body>

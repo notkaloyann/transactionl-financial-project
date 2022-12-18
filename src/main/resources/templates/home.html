@@ -2,10 +2,10 @@
 <html lang="en"
       xmlns:th="http://thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:insert="/fragments/commons::head">
+<head th:replace="/fragments/commons::head">
 </head>
 <body>
-<header th:insert="/fragments/commons::header"></header>
+<header th:replace="/fragments/commons::header"></header>
 
 <div class="header-container">
 
@@ -24,7 +24,6 @@
 
 </div>
 
-<footer>2022 All rights reserved by Transactionl Ltd.</footer>
-
 </body>
+<footer th:replace="/fragments/commons::footer"></footer>
 </html>
