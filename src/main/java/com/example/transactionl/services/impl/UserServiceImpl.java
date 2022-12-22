@@ -3,11 +3,17 @@ package com.example.transactionl.services.impl;
 import com.example.transactionl.models.entities.Role;
 import com.example.transactionl.models.entities.RoleEnums;
 import com.example.transactionl.models.entities.UserEntity;
+import com.example.transactionl.models.service.UserRegisterServiceModel;
 import com.example.transactionl.models.view.UserViewModel;
 import com.example.transactionl.repositories.UserRepository;
+import com.example.transactionl.security.AppUserDetailsService;
 import com.example.transactionl.services.RoleService;
 import com.example.transactionl.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +28,14 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final AppUserDetailsService appUserDetailsService;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, RoleService roleService, AppUserDetailsService appUserDetailsService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.appUserDetailsService = appUserDetailsService;
     }
 
     @Override
@@ -58,5 +66,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserViewModel getUserViewModelByUsername(String username) {
         return this.modelMapper.map(this.userRepository.getUserEntityByUsername(username).orElse(null),UserViewModel.class);
+    }
+
+    @Override
+    public boolean userAlreadyExist(String username) {
+        return this.userRepository.findUserEntityByUsername(username);
+    }
+
+    @Override
+    public void registerUser(UserRegisterServiceModel userRegisterServiceModel) {
+        UserEntity userEntity = this.modelMapper.map(userRegisterServiceModel, UserEntity.class);
+        Role role = this.roleService.returnRoleByName("USER");
+        userEntity.setRoles(List.of(role));
+        userEntity.setPassword(this.passwordEncoder.encode(userRegisterServiceModel.getPassword()));
+        this.userRepository.save(userEntity);
+
+        UserDetails userDetails = this.appUserDetailsService.loadUserByUsername(userEntity.getUsername());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails,userEntity.getPassword(),userDetails.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
     }
 }

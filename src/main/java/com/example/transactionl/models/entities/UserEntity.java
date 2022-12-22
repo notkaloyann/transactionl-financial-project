@@ -12,6 +12,51 @@ public class UserEntity extends BaseEntity {
     private String username;
     private String email;
     private String password;
+    private String bio;
+    private String firstName;
+    private String lastName;
+    private List<Transaction> transactions;
+
+    @OneToMany
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public UserEntity setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+        return this;
+    }
+
+    @Column(name = "first_name")
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public UserEntity setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    @Column(name = "last_name")
+    public String getLastName() {
+        return lastName;
+    }
+
+    public UserEntity setLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    @Column(name = "bio")
+    public String getBio() {
+        return bio;
+    }
+
+    public UserEntity setBio(String bio) {
+        this.bio = bio;
+        return this;
+    }
+
     private List<Role> roles;
 
     public UserEntity() {

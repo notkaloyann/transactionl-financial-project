@@ -2,10 +2,11 @@ package com.example.transactionl.web;
 
 
 import com.example.transactionl.models.binding.UserRegisterBindingModel;
+import com.example.transactionl.models.service.UserRegisterServiceModel;
 import com.example.transactionl.models.view.UserViewModel;
 import com.example.transactionl.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
@@ -25,25 +26,31 @@ public class UserController {
 
 
     private final UserService userService;
+    private final ModelMapper modelMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
-    @GetMapping
-    public String registerPage(){
-        return null;
+
+    @ModelAttribute("userRegisterBindingModel")
+    public UserRegisterBindingModel createBindingModel(){
+        return new UserRegisterBindingModel();
     }
 
-   @PostMapping
+   @PostMapping("/register")
    public String registerUser (@Valid UserRegisterBindingModel userRegisterBindingModel,
                                BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes){
+                              RedirectAttributes redirectAttributes,
+                               Model model){
 
 
+       UserRegisterServiceModel userRegisterServiceModel = this.modelMapper.map(userRegisterBindingModel, UserRegisterServiceModel.class);
+        this.userService.registerUser(userRegisterServiceModel);
+        model.addAttribute("userRegisterBindingModel",userRegisterBindingModel);
 
-
-       return null;
+       return "redirect:profile";
   }
 
   @GetMapping("login")
@@ -69,6 +76,11 @@ public class UserController {
         UserViewModel userViewModel = this.userService.getUserViewModelByUsername(username);
         model.addAttribute("userViewModel",userViewModel);
         return "profile-page";
+  }
+
+  @GetMapping("/register")
+    public String register(){
+        return "register";
   }
 
 
