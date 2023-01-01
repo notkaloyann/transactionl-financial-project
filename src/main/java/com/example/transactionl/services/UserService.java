@@ -1,5 +1,6 @@
 package com.example.transactionl.services;
 
+import com.example.transactionl.models.entities.UserEntity;
 import com.example.transactionl.models.service.UserRegisterServiceModel;
 import com.example.transactionl.models.view.UserViewModel;
 
@@ -11,4 +12,6 @@ public interface UserService {
     boolean userAlreadyExist(String username);
 
     void registerUser(UserRegisterServiceModel userRegisterServiceModel);
+
+    UserEntity returnUserById(Long id);
 }

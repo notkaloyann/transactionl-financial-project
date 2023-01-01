@@ -42,13 +42,11 @@ public class UserController {
    @PostMapping("/register")
    public String registerUser (@Valid UserRegisterBindingModel userRegisterBindingModel,
                                BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes,
-                               Model model){
+                              RedirectAttributes redirectAttributes){
 
 
        UserRegisterServiceModel userRegisterServiceModel = this.modelMapper.map(userRegisterBindingModel, UserRegisterServiceModel.class);
         this.userService.registerUser(userRegisterServiceModel);
-        model.addAttribute("userRegisterBindingModel",userRegisterBindingModel);
 
        return "redirect:profile";
   }
@@ -83,7 +81,10 @@ public class UserController {
         return "register";
   }
 
-
+    @GetMapping("/transactions")
+    public String showTransactions(){
+        return "transactions";
+    }
 
 
 

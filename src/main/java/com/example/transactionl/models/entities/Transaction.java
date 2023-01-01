@@ -3,10 +3,7 @@ package com.example.transactionl.models.entities;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
@@ -25,7 +22,8 @@ public class Transaction extends BaseEntity{
     public Transaction() {
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn
     @NotNull
     public UserEntity getSender() {
         return sender;
@@ -36,7 +34,7 @@ public class Transaction extends BaseEntity{
         return this;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
     public UserEntity getReceiver() {
         return receiver;
@@ -48,7 +46,7 @@ public class Transaction extends BaseEntity{
     }
 
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    @Column(name = "sent-on")
+    @Column(name = "sent_on")
     public Instant getSentOn() {
         return sentOn;
     }

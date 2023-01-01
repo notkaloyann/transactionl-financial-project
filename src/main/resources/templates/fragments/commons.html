@@ -23,7 +23,7 @@
     <a class="navbar-item" href="/">HOME</a>
     <a sec:authorize="isAnonymous()" class="navbar-item" href="/users/login">LOGIN</a>
     <a sec:authorize="isAuthenticated()" class="navbar-item" href="/users/profile">PROFILE</a>
-    <a sec:authorize="isAuthenticated()" class="navbar-item" href="">TRANSACTIONS</a>
+    <a sec:authorize="isAuthenticated()" class="navbar-item" href="/users/transactions">TRANSACTIONS</a>
     <a sec:authorize="isAuthenticated()" class="navbar-item" href="/users/logout">LOGOUT</a>
 
   </ul>

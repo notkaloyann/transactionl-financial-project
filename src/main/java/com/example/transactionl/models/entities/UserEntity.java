@@ -3,7 +3,10 @@ package com.example.transactionl.models.entities;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -15,15 +18,27 @@ public class UserEntity extends BaseEntity {
     private String bio;
     private String firstName;
     private String lastName;
-    private List<Transaction> transactions;
+    private Set<Transaction> sentTransactions = new LinkedHashSet<>();
+    private Set<Transaction> receivedTransactions = new LinkedHashSet<>();
 
-    @OneToMany
-    public List<Transaction> getTransactions() {
-        return transactions;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    public Set<Transaction> getSentTransactions() {
+        return sentTransactions;
     }
 
-    public UserEntity setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
+    public UserEntity setSentTransactions(Set<Transaction> sentTransactions) {
+        this.sentTransactions = sentTransactions;
+        return this;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER)
+    public Set<Transaction> getReceivedTransactions() {
+        return receivedTransactions;
+    }
+
+    public UserEntity setReceivedTransactions(Set<Transaction> receivedTransactions) {
+        this.receivedTransactions = receivedTransactions;
         return this;
     }
 
@@ -105,4 +120,14 @@ public class UserEntity extends BaseEntity {
         this.roles = roles;
         return this;
     }
+
+    public void addTransaction(Transaction transaction, String type){
+        if(type.equals("received")){
+            this.receivedTransactions.add(transaction);
+        } else if (type.equals("sent")){
+            this.sentTransactions.add(transaction);
+
+        }
+    }
+
 }
