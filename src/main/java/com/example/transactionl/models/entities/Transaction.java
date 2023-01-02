@@ -23,7 +23,6 @@ public class Transaction extends BaseEntity{
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn
     @NotNull
     public UserEntity getSender() {
         return sender;

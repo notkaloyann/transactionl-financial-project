@@ -104,8 +104,8 @@
     </div>
     <div class="d-flex justify-content-between align-items-center mt-3">
         <ul class="nav nav-tabs w-75">
-            <li class="nav-item"><a class="nav-link active" href="#history">History</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#history">Sent</a></li>
+            <li class="nav-item"><a class="nav-link" href="#received">Received</a></li>
         </ul>
         <button class="btn btn-primary">New Transaction</button>
     </div>
@@ -113,69 +113,29 @@
         <table class="table table-dark table-borderless">
             <thead>
             <tr>
-                <th scope="col">Activity</th>
+                <th scope="col">Sent to</th>
                 <th scope="col">Mode</th>
                 <th scope="col">Date</th>
                 <th scope="col" class="text-right">Amount</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td scope="row"><span class="fa fa-briefcase mr-1"></span> Coorg Trip</td>
-                <td><span class="fa fa-cc-mastercard"></span></td>
-                <td class="text-muted">12 Jul 2020, 12:30 PM</td>
-                <td class="d-flex justify-content-end align-items-center"><span class="fa fa-long-arrow-up mr-1"></span>
-                    $52.9
-                </td>
-            </tr>
-            <tr>
-                <td scope="row"><span class="fa fa-bed mr-1"></span> Hotel Leela Palace</td>
-                <td><span class="fa fa-cc-mastercard"></span></td>
-                <td class="text-muted">11 Jul 2020, 2:00 PM</td>
-                <td class="d-flex justify-content-end align-items-center"><span class="fa fa-long-arrow-up mr-1"></span>
-                    $18.9
-                </td>
-            </tr>
-            <tr>
-                <td scope="row"><span class="fa fa-exchange mr-1"></span> Monthly Salary</td>
-                <td><span class="fa fa-cc-visa"></span></td>
-                <td class="text-muted">10 Jul 2020, 8:30 PM</td>
-                <td class="d-flex justify-content-end align-items-center"><span
-                        class="fa fa-long-arrow-down mr-1"></span> $9,765.00
-                </td>
-            </tr>
-            <tr>
-                <td scope="row"><span class="fa fa-exchange mr-1"></span> Xbox Purchase</td>
-                <td><span class="fa fa-cc-mastercard"></span></td>
-                <td class="text-muted">12 May 2020, 4:30 PM</td>
-                <td class="d-flex justify-content-end align-items-center"><span class="fa fa-long-arrow-up mr-1"></span>
-                    $198.90
-                </td>
-            </tr>
-            <tr>
-                <td scope="row"><span class="fa fa-cutlery mr-1"></span> Dinner Party</td>
-                <td><span class="fa fa-cc-visa"></span></td>
-                <td class="text-muted">11 May 2020, 5:30 PM</td>
-                <td class="d-flex justify-content-end align-items-center"><span class="fa fa-long-arrow-up mr-1"></span>
-                    $12.90
-                </td>
-            </tr>
-            <tr>
-                <td scope="row"><span class="fa fa-briefcase mr-1"></span> Nandini Hills Ride</td>
-                <td><span class="fa fa-cc-mastercard"></span></td>
-                <td class="text-muted">10 May 2020, 01:30 PM</td>
-                <td class="d-flex justify-content-end align-items-center"><span class="fa fa-long-arrow-up mr-1"></span>
-                    $97.9
-                </td>
-            </tr>
-            <tr>
-                <td scope="row"><span class="fa fa-briefcase mr-1"></span> Goa Beach Party</td>
-                <td><span class="fa fa-cc-visa"></span></td>
-                <td class="text-muted">09 May 2020, 01:30 PM</td>
-                <td class="d-flex justify-content-end align-items-center"><span class="fa fa-long-arrow-up mr-1"></span>
-                    $97.9
-                </td>
-            </tr>
+            <tbody id="sent-transactions">
+            <script>
+                const transactionsList = document.getElementById('sent-transactions');
+                fetch("http://localhost:8080/users/transactions/sent").then(response => response.json()).then(
+                    data => {
+                        for (let transaction of data) {
+                            transactionsList.innerHTML+= `<tr>
+                                <td scope="row"><span class="fa fa-briefcase mr-1"></span>${transaction.receiver}</td>
+                                <td><span class="fa fa-cc-mastercard"></span></td>
+                                <td class="text-muted">${transaction.sentOn}</td>
+                                <td class="d-flex justify-content-end align-items-center text-right">
+                                   $${transaction.amount}</td>
+                            </tr>`
+                        }})
+
+            </script>
+
             </tbody>
         </table>
     </div>

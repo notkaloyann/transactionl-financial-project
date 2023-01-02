@@ -18,29 +18,6 @@ public class UserEntity extends BaseEntity {
     private String bio;
     private String firstName;
     private String lastName;
-    private Set<Transaction> sentTransactions = new LinkedHashSet<>();
-    private Set<Transaction> receivedTransactions = new LinkedHashSet<>();
-
-
-    @OneToMany(fetch = FetchType.EAGER)
-    public Set<Transaction> getSentTransactions() {
-        return sentTransactions;
-    }
-
-    public UserEntity setSentTransactions(Set<Transaction> sentTransactions) {
-        this.sentTransactions = sentTransactions;
-        return this;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER)
-    public Set<Transaction> getReceivedTransactions() {
-        return receivedTransactions;
-    }
-
-    public UserEntity setReceivedTransactions(Set<Transaction> receivedTransactions) {
-        this.receivedTransactions = receivedTransactions;
-        return this;
-    }
 
     @Column(name = "first_name")
     public String getFirstName() {
@@ -121,13 +98,7 @@ public class UserEntity extends BaseEntity {
         return this;
     }
 
-    public void addTransaction(Transaction transaction, String type){
-        if(type.equals("received")){
-            this.receivedTransactions.add(transaction);
-        } else if (type.equals("sent")){
-            this.sentTransactions.add(transaction);
 
-        }
-    }
+
 
 }

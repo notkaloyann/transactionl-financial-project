@@ -5,6 +5,7 @@ import com.example.transactionl.models.entities.UserEntity;
 import java.time.Instant;
 
 public class TransactionViewModel {
+    private String sender;
     private String receiver;
     private String sentOn;
     private double amount;
@@ -13,6 +14,14 @@ public class TransactionViewModel {
     public TransactionViewModel() {
     }
 
+    public String getSender() {
+        return sender;
+    }
+
+    public TransactionViewModel setSender(String sender) {
+        this.sender = sender;
+        return this;
+    }
 
     public String getReceiver() {
         return receiver;

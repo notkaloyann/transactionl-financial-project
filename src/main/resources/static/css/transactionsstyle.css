@@ -131,11 +131,11 @@ a{
     border-radius: 50%;
     font-size: 1rem;
     font-weight: 100;
-    color: #28df99
+    color: #28df99;
 }
 
 .fa-long-arrow-up {
-    color: #ffa500
+    color: #ffa500;
 }
 
 .nav.nav-tabs {
@@ -7175,7 +7175,10 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 
 .d-flex {
     display: -ms-flexbox !important;
-    display: flex !important
+    display: flex !important;
+}
+.amount{
+    text-align:right;
 }
 
 .d-inline-flex {
