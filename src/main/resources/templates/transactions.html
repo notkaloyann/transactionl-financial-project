@@ -103,10 +103,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-between align-items-center mt-3">
-        <ul class="nav nav-tabs w-75">
-            <li class="nav-item"><a class="nav-link active" href="#history">Sent</a></li>
-            <li class="nav-item"><a class="nav-link" href="#received">Received</a></li>
-        </ul>
+
         <button class="btn btn-primary">New Transaction</button>
     </div>
     <div class="table-responsive mt-3">
@@ -122,8 +119,12 @@
             <tbody id="sent-transactions">
             <script>
                 const transactionsList = document.getElementById('sent-transactions');
-                fetch("http://localhost:8080/users/transactions/sent").then(response => response.json()).then(
+                const receivedTransactionsList = document.getElementById('received-transactions');
+
+                fetch("http://localhost:8080/users/transactions/details").then(response => response.json()).then(
                     data => {
+                        let receivedTransactions = data;
+
                         for (let transaction of data) {
                             transactionsList.innerHTML+= `<tr>
                                 <td scope="row"><span class="fa fa-briefcase mr-1"></span>${transaction.receiver}</td>
@@ -139,6 +140,25 @@
             </tbody>
         </table>
     </div>
+
+    <div class="table-responsive mt-3">
+        <table class="table table-dark table-borderless">
+            <thead>
+            <tr>
+                <th scope="col">Received from</th>
+                <th scope="col">Mode</th>
+                <th scope="col">Date</th>
+                <th scope="col" class="text-right">Amount</th>
+            </tr>
+            </thead>
+            <tbody id="received-transactions">
+
+
+            </tbody>
+        </table>
+    </div>
+
+
     <div class="d-flex justify-content-between align-items-center results"><span class="pl-md-3">Showing<b
             class="text-white"> 1-7 0f 200 </b> trasactions</span>
         <div class="pt-3">

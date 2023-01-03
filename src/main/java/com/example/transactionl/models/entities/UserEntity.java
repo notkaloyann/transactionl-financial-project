@@ -18,6 +18,32 @@ public class UserEntity extends BaseEntity {
     private String bio;
     private String firstName;
     private String lastName;
+    private Set<Transaction> receivedTransactions = new LinkedHashSet<>();
+    private Set<Transaction> sentTransactions = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "receiver",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    public Set<Transaction> getReceivedTransactions() {
+        return receivedTransactions;
+    }
+
+    public UserEntity setReceivedTransactions(Set<Transaction> receivedTransactions) {
+        this.receivedTransactions = receivedTransactions;
+        return this;
+    }
+
+    @OneToMany(mappedBy = "sender",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    public Set<Transaction> getSentTransactions() {
+        return sentTransactions;
+    }
+
+    public UserEntity setSentTransactions(Set<Transaction> sentTransactions) {
+        this.sentTransactions = sentTransactions;
+        return this;
+    }
 
     @Column(name = "first_name")
     public String getFirstName() {

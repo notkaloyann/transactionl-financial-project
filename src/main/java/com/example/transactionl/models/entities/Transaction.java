@@ -22,7 +22,8 @@ public class Transaction extends BaseEntity{
     public Transaction() {
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
     @NotNull
     public UserEntity getSender() {
         return sender;
@@ -34,6 +35,7 @@ public class Transaction extends BaseEntity{
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "receiver_id")
     @NotNull
     public UserEntity getReceiver() {
         return receiver;

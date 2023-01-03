@@ -7,16 +7,12 @@ import com.example.transactionl.repositories.TransactionRepository;
 import com.example.transactionl.services.TransactionService;
 import com.example.transactionl.services.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
-
-import java.text.DateFormat;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -39,6 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
             transaction.setSender(this.userService.returnUserById(1L)).setReceiver(this.userService.returnUserById(2L)).setAmount(20).setSentOn(Instant.now()).setComment("Here you go");
             transactionRepository.save(transaction);
 
+
             Transaction transaction2 = new Transaction();
             transaction2.setSender(this.userService.returnUserById(2L)).setReceiver(this.userService.returnUserById(1L)).setAmount(10).setSentOn(Instant.now()).setComment("You're welcome");
             transactionRepository.save(transaction2);
@@ -46,19 +43,20 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionViewModel> getReceiversTransactions(UserEntity user) {
-        List<Transaction> transactions = this.transactionRepository.getTransactionsByReceiver(user);
+    public HashSet<TransactionViewModel> getReceiversTransactions(UserEntity user) {
+        HashSet<Transaction> transactions = new HashSet<>(user.getReceivedTransactions());
         return mapToViewModel(transactions);
     }
+
 
     @Override
-    public List<TransactionViewModel> getSendersTransactions(UserEntity user) {
-        List<Transaction> transactions = this.transactionRepository.getTransactionsBySender(user);
+    public HashSet<TransactionViewModel> getSendersTransactions(UserEntity user) {
+        HashSet<Transaction> transactions = new HashSet<Transaction>(user.getSentTransactions());
         return mapToViewModel(transactions);
     }
 
-    private List<TransactionViewModel> mapToViewModel(List<Transaction> transactions){
-        List<TransactionViewModel> transactionViewModels = new ArrayList<>();
+    private HashSet<TransactionViewModel> mapToViewModel(HashSet<Transaction> transactions){
+        HashSet<TransactionViewModel> transactionViewModels = new HashSet<>();
         transactions.forEach(x -> {
             String sender = x.getSender().getUsername();
             String receiver = x.getReceiver().getUsername();
