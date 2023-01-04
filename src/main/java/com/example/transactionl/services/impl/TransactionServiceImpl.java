@@ -2,6 +2,7 @@ package com.example.transactionl.services.impl;
 
 import com.example.transactionl.models.entities.Transaction;
 import com.example.transactionl.models.entities.UserEntity;
+import com.example.transactionl.models.service.TransactionAddServiceModel;
 import com.example.transactionl.models.view.TransactionViewModel;
 import com.example.transactionl.repositories.TransactionRepository;
 import com.example.transactionl.services.TransactionService;
@@ -9,10 +10,8 @@ import com.example.transactionl.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -53,6 +52,16 @@ public class TransactionServiceImpl implements TransactionService {
     public HashSet<TransactionViewModel> getSendersTransactions(UserEntity user) {
         HashSet<Transaction> transactions = new HashSet<Transaction>(user.getSentTransactions());
         return mapToViewModel(transactions);
+    }
+
+    @Override
+    public void addTransaction(TransactionAddServiceModel transactionAddServiceModel) {
+        Transaction transaction = this.modelMapper.map(transactionAddServiceModel,Transaction.class);
+        UserEntity sender = this.userService.returnUserEntityByUsername(transactionAddServiceModel.getSender());
+        UserEntity receiver = this.userService.returnUserEntityByUsername(transactionAddServiceModel.getReceiver());
+        Instant createdOn = Instant.now();
+        transaction.setSender(sender).setReceiver(receiver).setSentOn(createdOn);
+        this.transactionRepository.save(transaction);
     }
 
     private HashSet<TransactionViewModel> mapToViewModel(HashSet<Transaction> transactions){

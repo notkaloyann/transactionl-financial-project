@@ -94,4 +94,9 @@ public class UserServiceImpl implements UserService {
     public UserEntity returnUserById(Long id) {
         return this.userRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public UserEntity returnUserEntityByUsername(String username) {
+        return this.userRepository.getUserEntityByUsername(username).orElse(null);
+    }
 }

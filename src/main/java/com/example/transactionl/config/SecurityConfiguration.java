@@ -21,7 +21,7 @@ public class SecurityConfiguration {
         return httpSecurity.authorizeRequests()
                 .antMatchers("/", "/css/**", "/js/**", "/img/**").permitAll()
                 .antMatchers("/users/login", "/users/register").permitAll()
-                .antMatchers("/users/profile").authenticated()
+                .antMatchers("/users/profile","/transactions/**").authenticated()
                 .and()
                 .formLogin().loginPage("/users/login")
                 .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)

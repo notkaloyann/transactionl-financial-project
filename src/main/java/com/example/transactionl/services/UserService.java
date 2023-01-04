@@ -14,4 +14,5 @@ public interface UserService {
     void registerUser(UserRegisterServiceModel userRegisterServiceModel);
 
     UserEntity returnUserById(Long id);
+    UserEntity returnUserEntityByUsername(String username);
 }

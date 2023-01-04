@@ -81,10 +81,7 @@ public class UserController {
         return "register";
   }
 
-    @GetMapping("/transactions")
-    public String showTransactions(){
-        return "transactions";
-    }
+
 
 
 

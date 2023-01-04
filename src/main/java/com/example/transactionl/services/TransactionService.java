@@ -1,6 +1,7 @@
 package com.example.transactionl.services;
 
 import com.example.transactionl.models.entities.UserEntity;
+import com.example.transactionl.models.service.TransactionAddServiceModel;
 import com.example.transactionl.models.view.TransactionViewModel;
 
 import java.util.HashSet;
@@ -11,4 +12,5 @@ public interface TransactionService {
     HashSet<TransactionViewModel> getReceiversTransactions(UserEntity user);
     HashSet<TransactionViewModel> getSendersTransactions(UserEntity user);
 
+    void addTransaction(TransactionAddServiceModel transactionAddServiceModel);
 }
