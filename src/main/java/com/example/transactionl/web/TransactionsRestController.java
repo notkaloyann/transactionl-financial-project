@@ -20,12 +20,10 @@ import java.util.Set;
 public class TransactionsRestController {
 
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
     private final TransactionService transactionService;
 
-    public TransactionsRestController(UserRepository userRepository, ModelMapper modelMapper, TransactionService transactionService) {
+    public TransactionsRestController(UserRepository userRepository, TransactionService transactionService) {
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
         this.transactionService = transactionService;
     }
 
@@ -33,13 +31,19 @@ public class TransactionsRestController {
     public ResponseEntity<UserFinancialInformationViewModel> receivedTransactions (){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
+        return userFinancialInfo(name);
+    }
+
+    private ResponseEntity<UserFinancialInformationViewModel> userFinancialInfo(String name) {
         UserEntity user = userRepository.getUserEntityByUsername(name).orElse(null);
         Set<TransactionViewModel> receivedTransactions = this.transactionService.getReceiversTransactions(user);
         Set<TransactionViewModel> sentTransactions = this.transactionService.getSendersTransactions(user);
         UserFinancialInformationViewModel userFinancialInformationViewModel = new UserFinancialInformationViewModel();
         userFinancialInformationViewModel.setSentTransactions(sentTransactions);
         userFinancialInformationViewModel.setReceivedTransactions(receivedTransactions);
+        userFinancialInformationViewModel.setUsername(name);
         return ResponseEntity.of(Optional.of(userFinancialInformationViewModel));
+
     }
 
 }

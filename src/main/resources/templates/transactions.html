@@ -92,13 +92,13 @@
         <div class="col-md-6" id="income">
             <div class="d-flex justify-content-start align-items-center"><p class="fa fa-long-arrow-down"></p>
                 <p class="text mx-3">Income</p>
-                <p class="text-white ml-4 money">$9,758.23</p></div>
+                <p class="text-white ml-4 money" id="income_amount">$9,758.23</p></div>
         </div>
         <div class="col-md-6">
             <div class="d-flex justify-content-md-end align-items-center">
                 <div class="fa fa-long-arrow-up"></div>
                 <div class="text mx-3">Expense</div>
-                <div class="text-white ml-4 money">$961.23</div>
+                <div class="text-white ml-4 money" id="expense_amount">$961.23</div>
             </div>
         </div>
     </div>
@@ -110,7 +110,7 @@
         <table class="table table-dark table-borderless">
             <thead>
             <tr>
-                <th scope="col">Sent to</th>
+                <th scope="col">Sender</th>
                 <th scope="col">Mode</th>
                 <th scope="col">Date</th>
                 <th scope="col" class="text-right">Amount</th>
@@ -123,36 +123,31 @@
 
                 fetch("http://localhost:8080/users/transactions/details").then(response => response.json()).then(
                     data => {
-                        let receivedTransactions = data;
 
-                        for (let transaction of data) {
-                            transactionsList.innerHTML+= `<tr>
-                                <td scope="row"><span class="fa fa-briefcase mr-1"></span>${transaction.receiver}</td>
+                        const income = document.getElementById('income_amount');
+                        const expense = document.getElementById('expense_amount');
+                        income.textContent = '$' + data.income;
+                        expense.textContent = '$' + data.expense;
+                        const transactions = new Set([...data.sentTransactions,...data.receivedTransactions]);
+                        const username = data.username;
+
+                        for (let transaction of transactions) {
+                            transactionsList.innerHTML+= `<tr id="transaction-info">
+                                <td scope="row"><span class="fa fa-briefcase mr-1"></span>${transaction.sender}</td>
                                 <td><span class="fa fa-cc-mastercard"></span></td>
-                                <td class="text-muted">${transaction.sentOn}</td>
-                                <td class="d-flex justify-content-end align-items-center text-right">
-                                   $${transaction.amount}</td>
+                                <td>${transaction.sentOn}</td>
+                                <td class="d-flex justify-content-end align-items-center text-right" id="amount">$${transaction.amount}
+                                   </td>
                             </tr>`
+                            const receiver = transaction.receiver;
+                            const amount = document.getElementById('transaction-info');
+                            let username = data.username;
+                            if (receiver !== username){
+                                amount.style.color = 'red';
+                            }
                         }})
 
             </script>
-
-            </tbody>
-        </table>
-    </div>
-
-    <div class="table-responsive mt-3">
-        <table class="table table-dark table-borderless">
-            <thead>
-            <tr>
-                <th scope="col">Received from</th>
-                <th scope="col">Mode</th>
-                <th scope="col">Date</th>
-                <th scope="col" class="text-right">Amount</th>
-            </tr>
-            </thead>
-            <tbody id="received-transactions">
-
 
             </tbody>
         </table>

@@ -3,12 +3,22 @@ import java.util.Set;
 
 public class UserFinancialInformationViewModel {
 
+    private String username;
     private double income;
     private double expense;
     private Set<TransactionViewModel> receivedTransactions;
     private Set<TransactionViewModel> sentTransactions;
 
     public UserFinancialInformationViewModel() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public UserFinancialInformationViewModel setUsername(String username) {
+        this.username = username;
+        return this;
     }
 
     public double getIncome() {
