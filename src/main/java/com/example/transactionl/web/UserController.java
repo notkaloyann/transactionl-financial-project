@@ -2,11 +2,14 @@ package com.example.transactionl.web;
 
 
 import com.example.transactionl.models.binding.UserRegisterBindingModel;
+import com.example.transactionl.models.entities.UserEntity;
 import com.example.transactionl.models.service.UserRegisterServiceModel;
 import com.example.transactionl.models.view.UserViewModel;
+import com.example.transactionl.security.AppUserDetailsService;
 import com.example.transactionl.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
@@ -76,10 +79,13 @@ public class UserController {
         return "profile-page";
   }
 
+
+
   @GetMapping("/register")
     public String register(){
         return "register";
   }
+
 
 
 

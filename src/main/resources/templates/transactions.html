@@ -114,29 +114,24 @@
 
                 fetch("http://localhost:8080/users/transactions/details").then(response => response.json()).then(
                     data => {
-
                         const income = document.getElementById('income_amount');
                         const expense = document.getElementById('expense_amount');
                         income.textContent = '$' + data.income;
                         expense.textContent = '$' + data.expense;
                         const transactions = new Set([...data.sentTransactions,...data.receivedTransactions]);
-                        const username = data.username;
+
 
                         for (let transaction of transactions) {
-                            transactionsList.innerHTML+= `<tr id="transaction-info">
+                            let isSender = data.username.toString() == transaction.sender.toString();
+                            transactionsList.innerHTML+= `<tr id="transaction-info" th:style="${isSender} ? 'color: red!important;' : 'color: #ffffff!important;'">
                                 <td scope="row"><span class="fa fa-briefcase mr-1"></span>${transaction.sender}</td>
                                 <td><span class="fa fa-cc-mastercard"></span></td>
                                 <td>${transaction.sentOn}</td>
-                                <td class="d-flex justify-content-end align-items-center text-right" id="amount">$${transaction.amount}
+                                <td id="amount" class="d-flex justify-content-end align-items-center text-right" id="amount">$${transaction.amount}
                                    </td>
                             </tr>`
-                            const receiver = transaction.receiver;
-                            const amount = document.getElementById('transaction-info');
-                            let username = data.username;
-                            if (receiver !== username){
-                                amount.style.color = 'red';
-                            }
-                        }})
+                        }
+                    })
 
             </script>
 

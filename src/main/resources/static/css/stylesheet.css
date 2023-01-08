@@ -157,3 +157,9 @@ header{
     text-decoration: none;
     color: darkred;
 }
+
+#myChart{
+    background-color: black;
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
