@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:insert="fragments/commons::head">
 </head>
 <body class="non-home-body">
@@ -40,20 +41,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script>
   var ctx = document.getElementById("myChart");
+  const parsedPrices = [];
 
-  var financeData = [];
-  fetch("https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=high?&interval=1d&range=5d").then(response => response.json()).then(data => {
-      for(let item in data.chart){financeData = item.indicators.adjclose[0].adjclose}
-
+  fetch("http://localhost:8080/company/stocks/apple")
+          .then(response =>
+              response.json()).then(data => {
+                  for(let i of data){
+                      parsedPrices.push(i);
+                  }
   });
+
+  alert();
+
 
   var myChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
       datasets: [{
-        data: financeData,
-        lineTension: 0,
+        data: parsedPrices,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
         borderWidth: 4,
