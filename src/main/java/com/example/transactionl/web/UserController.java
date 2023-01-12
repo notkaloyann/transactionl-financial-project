@@ -5,11 +5,10 @@ import com.example.transactionl.models.binding.UserRegisterBindingModel;
 import com.example.transactionl.models.entities.UserEntity;
 import com.example.transactionl.models.service.UserRegisterServiceModel;
 import com.example.transactionl.models.view.UserViewModel;
-import com.example.transactionl.security.AppUserDetailsService;
+import com.example.transactionl.repositories.UserRepository;
 import com.example.transactionl.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @Controller
@@ -30,10 +30,14 @@ public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+
+    public UserController(UserService userService, ModelMapper modelMapper,
+                          UserRepository userRepository) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
     }
 
 
@@ -79,6 +83,23 @@ public class UserController {
         return "profile-page";
   }
 
+
+  @PostMapping("/profile")
+  public String setUserDetails(UserViewModel userViewModel){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        UserEntity userEntity = this.userService.returnUserEntityByUsername(username);
+        userEntity.setFirstName(userViewModel.getFirstName());
+        userEntity.setLastName(userViewModel.getLastName());
+        userEntity.setBio(userViewModel.getBio());
+        userRepository.save(userEntity);
+        return "redirect:profile";
+  }
+
+    @ModelAttribute("userViewModel")
+    public UserViewModel createViewModel(){
+        return new UserViewModel();
+    }
 
 
   @GetMapping("/register")

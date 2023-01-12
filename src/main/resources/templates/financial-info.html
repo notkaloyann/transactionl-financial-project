@@ -43,16 +43,18 @@
   var ctx = document.getElementById("myChart");
   const parsedPrices = [];
 
-  fetch("http://localhost:8080/company/stocks/apple")
-          .then(response =>
-              response.json()).then(data => {
+  async function fetchMoviesJSON() {
+  const response = await fetch("http://localhost:8080/company/stocks/apple");
+  const data = await response.json();
+  return data;
+  }
+  fetchMoviesJSON().then(data => {
                   for(let i of data){
                       parsedPrices.push(i);
                   }
   });
 
-  alert();
-
+  alert("Transactionl does not hold responsibility for any financial losses coming from the stock market.");
 
   var myChart = new Chart(ctx, {
     type: 'line',
